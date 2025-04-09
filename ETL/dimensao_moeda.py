@@ -6,15 +6,15 @@ import mysql.connector
 conn_pg = psycopg2.connect(
     host="localhost",
     dbname="db_comex_oltp",
-    user="postgres",
-    password="root"
+    user="usuário_postgres",
+    password="senha"
 )
 
 conn_mysql = mysql.connector.connect(
     host="localhost",
     database="starcomex_dm",
-    user="root",
-    password="@Sa111419"
+    user="usuário_mysql",
+    password="senha"
 )
 
 cursor = conn_mysql.cursor()
