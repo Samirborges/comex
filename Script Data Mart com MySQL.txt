@@ -88,3 +88,13 @@ CREATE TABLE fato_transacoes (
     FOREIGN KEY (moeda_destino_id) REFERENCES dim_moeda(id),
     FOREIGN KEY (transporte_id) REFERENCES dim_transporte(id)
 );
+
+ALTER TABLE dim_moeda ADD COLUMN codigo_iso VARCHAR(10);
+
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE dim_moeda SET codigo_iso = 'USD' WHERE pais = 'USD';
+UPDATE dim_moeda SET codigo_iso = 'BRL' WHERE pais = 'BRL';
+UPDATE dim_moeda SET codigo_iso = 'EUR' WHERE pais = 'EUR'; -- ou nome que estiver
+UPDATE dim_moeda SET codigo_iso = 'CNY' WHERE pais = 'CHN';
+SET SQL_SAFE_UPDATES = 1;
