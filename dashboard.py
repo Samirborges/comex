@@ -26,7 +26,7 @@ def conectar_mysql():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="@Sa111419",
+        password="senha",
         database="starcomex_dm"
     )
 
