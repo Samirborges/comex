@@ -7,8 +7,8 @@ from datetime import datetime
 conn_pg = psycopg2.connect(
     host="localhost",
     dbname="db_comex_oltp",
-    user="usuário",
-    password="senha"
+    user="postegres",
+    password="root"
 )
 
 # === 2. Query base (com descrições, não IDs) ===
@@ -41,8 +41,8 @@ df = pl.read_database(query, connection=conn_pg)
 # === 3. Conexão com o Data Mart ===
 conn_mysql = mysql.connector.connect(
     host="localhost",
-    user="usuario",
-    password="senha",
+    user="root",
+    password="@Sa111419",
     database="starcomex_dm"
 )
 cursor = conn_mysql.cursor()
