@@ -1,0 +1,87 @@
+-- Inserindo blocos econômicos
+INSERT INTO public.blocos_economicos (nome) VALUES
+('Mercosul'),
+('União Europeia'),
+('NAFTA'),
+('BRICS');
+
+-- Inserindo categorias de produtos
+INSERT INTO public.categoria_produtos (descricao) VALUES
+('Commodities Agrícolas'),
+('Energia'),
+('Veículos e Máquinas'),
+('Papel e Celulose'),
+('Metalurgia');
+
+-- Inserindo moedas
+INSERT INTO public.moedas (descricao, pais) VALUES
+('Dólar Americano', 'USA'),
+('Real Brasileiro', 'BRA'),
+('Euro', 'EUR'),
+('Yuan Chinês', 'CHN');
+
+-- Inserindo meios de transporte
+INSERT INTO public.transportes (descricao) VALUES
+('Marítimo'),
+('Rodoviário'),
+('Aéreo'),
+('Ferroviário');
+
+-- Inserindo países
+INSERT INTO public.paises (nome, codigo_iso, bloco_id) VALUES
+('Brasil', 'BRA', 1),
+('Estados Unidos', 'USA', 3),
+('China', 'CHN', 4),
+('Alemanha', 'DEU', 2),
+('França', 'FRA', 2);
+
+-- Inserindo produtos
+INSERT INTO public.produtos (descricao, categoria_id, codigo_ncm) VALUES
+('Soja', 1, '12019000'),
+('Petróleo Bruto', 2, '27090010'),
+('Automóveis', 3, '87032390'),
+('Celulose', 4, '47032100'),
+('Aço Laminado', 5, '72083910');
+
+-- Inserindo tipos_transacoes
+INSERT INTO public.tipos_transacoes (descricao) VALUES
+('IMPORT'),
+('EXPORT');
+
+-- Inserindo taxas de câmbio de 2020 a 2024
+INSERT INTO public.cambios (data, moeda_origem, moeda_destino, taxa_cambio) VALUES
+-- Ano 2020
+('2020-03-15', 1, 2, 4.50),  -- USD -> BRL
+('2020-07-20', 3, 2, 5.20),  -- EUR -> BRL
+('2020-10-05', 4, 1, 0.14),  -- CNY -> USD
+('2021-02-10', 1, 2, 5.30),  -- USD -> BRL
+('2021-06-18', 3, 2, 6.10),  -- EUR -> BRL
+('2021-09-30', 4, 3, 0.13),  -- CNY -> EUR
+('2022-01-25', 1, 2, 5.00),  -- USD -> BRL
+('2022-08-14', 3, 1, 1.08),  -- EUR -> USD
+('2023-04-12', 1, 3, 0.92),  -- USD -> EUR
+('2023-11-22', 2, 1, 0.19);  -- BRL -> USD
+
+
+-- Inserindo transações comerciais para cada taxa de câmbio
+INSERT INTO public.transacoes (tipo_id, pais_origem, pais_destino, produto_id, valor_monetario, quantidade, transporte_id, cambio_id) VALUES
+(2, 1, 2, 1, 4500000.00, 12000, 1, 1),
+(1, 2, 1, 3, 7800000.00, 6000, 2, 1),
+(2, 3, 4, 5, 9000000.00, 3000, 3, 1),
+(1, 4, 5, 2, 5600000.00, 4000, 1, 1),
+(2, 5, 3, 4, 7300000.00, 5000, 2, 1),
+(2, 1, 3, 2, 8000000.00, 4000, 1, 4),
+(1, 2, 4, 5, 9200000.00, 5000, 3, 4),
+(2, 3, 5, 3, 11000000.00, 7000, 2, 4),
+(1, 4, 1, 1, 5200000.00, 3000,  4, 4),
+(2, 5, 2, 4, 7600000.00, 4000, 1, 4),
+(2, 1, 5, 3, 10000000.00, 6000,  2, 7),
+(1, 2, 3, 4, 8500000.00, 5000,  3, 7),
+(2, 3, 2, 1, 4200000.00, 2000,  4, 7),
+(1, 4, 1, 5, 9600000.00, 4000,  1, 7),
+(2, 5, 4, 2, 8800000.00, 4500, 3, 7),
+(2, 1, 4, 1, 6200000.00, 3100, 2, 9),
+(1, 2, 5, 3, 7800000.00, 4500, 3, 9),
+(2, 3, 1, 2, 8900000.00, 5000, 4, 9),
+(1, 4, 2, 4, 7100000.00, 3800, 1, 9),
+(2, 5, 3, 5, 9700000.00, 5500, 3, 9);

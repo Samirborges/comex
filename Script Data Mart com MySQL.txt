@@ -1,0 +1,90 @@
+-- Data Mart com MySQL
+-- CRIAÇÃO DO BANCO DE DADOS
+CREATE DATABASE starcomex_dm;
+USE starcomex_dm;
+
+-- TABELAS DIMENSÃO
+
+-- Tempo
+CREATE TABLE dim_tempo (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    data DATE,
+    ano INT,
+    mes INT,
+    dia INT,
+    ano_mes VARCHAR(7),
+    data_yyyymmdd INT
+);
+
+-- País
+CREATE TABLE dim_pais (
+    id INT PRIMARY KEY,
+    nome VARCHAR(100),
+    codigo_iso VARCHAR(10),
+    bloco_economico VARCHAR(100)
+);
+
+-- Produto
+CREATE TABLE dim_produto (
+    id INT PRIMARY KEY,
+    descricao VARCHAR(100),
+    categoria VARCHAR(100),
+    codigo_ncm VARCHAR(20)
+);
+
+-- Moeda
+CREATE TABLE dim_moeda (
+    id INT PRIMARY KEY,
+    descricao VARCHAR(100),
+    pais VARCHAR(100)
+);
+
+-- Transporte
+CREATE TABLE dim_transporte (
+    id INT PRIMARY KEY,
+    descricao VARCHAR(50)
+);
+
+-- Tipo de Transação
+CREATE TABLE dim_tipo_transacao (
+    id INT PRIMARY KEY,
+    descricao VARCHAR(50)
+);
+
+-- Cambio
+CREATE TABLE dim_cambio (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    data DATE,
+    moeda_origem VARCHAR(10),
+    moeda_destino VARCHAR(10),
+    taxa_cambio DECIMAL(10, 4),
+    UNIQUE KEY uq_cambio (data, moeda_origem, moeda_destino)
+);
+
+
+-- TABELA FATO
+
+CREATE TABLE fato_transacoes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    data_id INT,
+    pais_origem_id INT,
+    pais_destino_id INT,
+    produto_id INT,
+    tipo_transacao_id INT,
+    moeda_origem_id INT,
+    moeda_destino_id INT,
+    transporte_id INT,
+    valor_monetario DECIMAL(15,2),
+    quantidade INT,
+    taxa_cambio DECIMAL(10,4),
+    valor_convertido DECIMAL(15,2),
+
+    FOREIGN KEY (data_id) REFERENCES dim_tempo(id),
+    FOREIGN KEY (pais_origem_id) REFERENCES dim_pais(id),
+    FOREIGN KEY (pais_destino_id) REFERENCES dim_pais(id),
+    FOREIGN KEY (produto_id) REFERENCES dim_produto(id),
+    FOREIGN KEY (tipo_transacao_id) REFERENCES dim_tipo_transacao(id),
+    FOREIGN KEY (moeda_origem_id) REFERENCES dim_moeda(id),
+    FOREIGN KEY (moeda_destino_id) REFERENCES dim_moeda(id),
+    FOREIGN KEY (transporte_id) REFERENCES dim_transporte(id)
+);

@@ -1,0 +1,146 @@
+-- public.blocos_economicos definição
+
+-- Drop table
+
+-- DROP TABLE public.blocos_economicos;
+
+CREATE TABLE public.blocos_economicos (
+	id serial4 NOT NULL,
+	nome varchar(100) NOT NULL,
+	CONSTRAINT blocos_economicos_pkey PRIMARY KEY (id)
+);
+
+
+-- public.categoria_produtos definição
+
+-- Drop table
+
+-- DROP TABLE public.categoria_produtos;
+
+CREATE TABLE public.categoria_produtos (
+	id serial4 NOT NULL,
+	descricao varchar(255) NOT NULL,
+	CONSTRAINT categoria_produtos_pkey PRIMARY KEY (id)
+);
+
+
+-- public.moedas definição
+
+-- Drop table
+
+-- DROP TABLE public.moedas;
+
+CREATE TABLE public.moedas (
+	id serial4 NOT NULL,
+	descricao varchar NOT NULL,
+	pais varchar(10) NOT NULL,
+	CONSTRAINT moedas_pkey PRIMARY KEY (id)
+);
+
+
+-- public.tipos_transacoes definição
+
+-- Drop table
+
+-- DROP TABLE public.tipos_transacoes;
+
+CREATE TABLE public.tipos_transacoes (
+	id serial4 NOT NULL,
+	descricao varchar(10) NOT NULL,
+	CONSTRAINT tipos_transacoes_pkey PRIMARY KEY (id)
+);
+
+
+-- public.transportes definição
+
+-- Drop table
+
+-- DROP TABLE public.transportes;
+
+CREATE TABLE public.transportes (
+	id serial4 NOT NULL,
+	descricao varchar(50) NOT NULL,
+	CONSTRAINT transportes_pkey PRIMARY KEY (id)
+);
+
+
+-- public.cambios definição
+
+-- Drop table
+
+-- DROP TABLE public.cambios;
+
+CREATE TABLE public.cambios (
+	id serial4 NOT NULL,
+	"data" date NOT NULL,
+	moeda_origem int4 NOT NULL,
+	moeda_destino int4 NOT NULL,
+	taxa_cambio numeric(10, 4) NOT NULL,
+	CONSTRAINT cambios_data_moeda_origem_moeda_destino_key UNIQUE (data, moeda_origem, moeda_destino),
+	CONSTRAINT cambios_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_moeda_destino FOREIGN KEY (moeda_destino) REFERENCES public.moedas(id) ON DELETE CASCADE,
+	CONSTRAINT fk_moeda_origem FOREIGN KEY (moeda_origem) REFERENCES public.moedas(id) ON DELETE CASCADE
+);
+
+
+-- public.paises definição
+
+-- Drop table
+
+-- DROP TABLE public.paises;
+
+CREATE TABLE public.paises (
+	id serial4 NOT NULL,
+	nome varchar(100) NOT NULL,
+	codigo_iso bpchar(3) NOT NULL,
+	bloco_id int4 NOT NULL,
+	CONSTRAINT paises_codigo_iso_key UNIQUE (codigo_iso),
+	CONSTRAINT paises_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_blocos_economicos FOREIGN KEY (bloco_id) REFERENCES public.blocos_economicos(id) ON DELETE CASCADE
+);
+
+
+-- public.produtos definição
+
+-- Drop table
+
+-- DROP TABLE public.produtos;
+
+CREATE TABLE public.produtos (
+	id serial4 NOT NULL,
+	descricao varchar(255) NOT NULL,
+	categoria_id int4 NOT NULL,
+	codigo_ncm varchar(10) NOT NULL,
+	CONSTRAINT produtos_codigo_ncm_key UNIQUE (codigo_ncm),
+	CONSTRAINT produtos_pkey PRIMARY KEY (id),
+	CONSTRAINT produtos_categoria_produtos_fk FOREIGN KEY (categoria_id) REFERENCES public.categoria_produtos(id)
+);
+
+
+-- public.transacoes definição
+
+-- Drop table
+
+-- DROP TABLE public.transacoes;
+
+CREATE TABLE public.transacoes (
+	id serial4 NOT NULL,
+	tipo_id int4 NOT NULL,
+	pais_origem int4 NOT NULL,
+	pais_destino int4 NOT NULL,
+	produto_id int4 NOT NULL,
+	valor_monetario numeric(15, 2) NOT NULL,
+	quantidade int4 NOT NULL,
+	transporte_id int4 NOT NULL,
+	cambio_id int4 NOT NULL,
+	CONSTRAINT transacoes_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_cambio FOREIGN KEY (cambio_id) REFERENCES public.cambios(id) ON DELETE CASCADE,
+	CONSTRAINT fk_pais_destino FOREIGN KEY (pais_destino) REFERENCES public.paises(id) ON DELETE CASCADE,
+	CONSTRAINT fk_pais_origem FOREIGN KEY (pais_origem) REFERENCES public.paises(id) ON DELETE CASCADE,
+	CONSTRAINT fk_produto FOREIGN KEY (produto_id) REFERENCES public.produtos(id) ON DELETE CASCADE,
+	CONSTRAINT fk_tipos_transacoes FOREIGN KEY (tipo_id) REFERENCES public.tipos_transacoes(id) ON DELETE CASCADE,
+	CONSTRAINT fk_transportes FOREIGN KEY (transporte_id) REFERENCES public.transportes(id) ON DELETE CASCADE
+);
+
+
+
