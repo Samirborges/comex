@@ -95,6 +95,6 @@ ALTER TABLE dim_moeda ADD COLUMN codigo_iso VARCHAR(10);
 SET SQL_SAFE_UPDATES = 0;
 UPDATE dim_moeda SET codigo_iso = 'USD' WHERE pais = 'USD';
 UPDATE dim_moeda SET codigo_iso = 'BRL' WHERE pais = 'BRL';
-UPDATE dim_moeda SET codigo_iso = 'EUR' WHERE pais = 'EUR'; -- ou nome que estiver
+UPDATE dim_moeda SET codigo_iso = 'EUR' WHERE pais = 'EUR'; 
 UPDATE dim_moeda SET codigo_iso = 'CNY' WHERE pais = 'CHN';
 SET SQL_SAFE_UPDATES = 1;
